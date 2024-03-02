@@ -47,19 +47,6 @@ body{
     margin-left: auto;
 }
 
-.search-box{
-    border: none;
-    border-bottom: 1px solid #aaa;
-    background: transparent;
-    outline: none;
-    height: 30px;
-    color:#fff;
-    width: 250px;
-    text-transform: capitalize;
-    font-size: 16px;
-    font-weight: 500;
-    transition: .5s;
-}
 
 .search-box:focus{
     width: 400px;
@@ -104,50 +91,6 @@ body{
     height: 100%;
     position: relative;
     margin: auto;
-}
-
-.slider{
-    flex: 0 0 auto;
-    margin-right: 30px;
-    position: relative;
-    background: rgba(0, 0, 0,0.5);
-    border-radius: 5px;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    transition: 1s;
-    overflow: hidden;
-}
-
-.slider img{
-    width: 70%;
-    min-height: 100%;
-    object-fit: cover;
-    display: block;
-    margin-left: auto;
-}
-
-.slide-content{
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    z-index: 2;
-    background: linear-gradient(to right, #030b17 80%, #0c111b00);
-    color: #fff;
-}
-
-.movie-title{
-    padding-left: 50px;
-    text-transform: capitalize;
-    margin-top: 80px;
-}
-
-.movie-des{
-    width: 80%;
-    line-height: 30px;
-    padding-left: 50px;
-    margin-top: 30px;
-    opacity: 0.8;
 }
 
 .video-card-container{
@@ -300,23 +243,6 @@ body{
     cursor: pointer;
     padding: 10px 5px;
     border-radius: 5px;
-}
-
-.watchlist-btn::before{
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -5px;
-    height: 35px;
-    width: 35px;
-    background-image: url(images/add.png);
-    background-size: cover;
-    transform: scale(0.4);
-}
-
-.watchlist-btn:hover{
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
 }
 
 .pre-btn,
