@@ -2,7 +2,7 @@
     require_once('./includes/header.php');
 ?>
     <main>
-        <img src="login/public_html/ressources/img/image (1).png" width="200px" height="200px">
+        <img src="images for new web/profile.png" width="200px" height="200px">
         <hr>
         <h2 class="white">Your profile information</h2>
         <hr>
