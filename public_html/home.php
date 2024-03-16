@@ -2,7 +2,7 @@
     require_once('./includes/header.php');
 ?>
     <main>
-        <img src="./ressources/img/garaje-logo.jpg" width="200px" height="200px">
+        <img src="images for new web/profile.png" width="200px" height="200px">
         <hr>
         <h2 class="white">Welcome to the private area</h2>
         <hr>
