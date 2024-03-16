@@ -17,7 +17,7 @@
 </head>
 <body>
     <header>
-        <img src="login/public_html/ressources/img/image (1).png" width="100px" height="100px">
+        <img src="images for new web/profile.png" width="100px" height="100px">
         <div id="menu-user">
             <p>Hola <?php echo $_SESSION['email'];?> !</p>
             <a href="logout.php" id="logout-link">Sign out/a>
