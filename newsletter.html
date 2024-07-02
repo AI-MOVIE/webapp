@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Movies Club Newsletter</title>
+    <title>AI Movies Newsletter</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,10 +33,19 @@
         .movie h2 {
             margin-top: 0;
         }
-        .movie img {
-            max-width: 100%;
-            height: auto;
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
             margin-bottom: 1rem;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
         button {
             background-color: #4CAF50;
@@ -72,25 +81,26 @@
             <button onclick="subscribe()">Subscribe</button>
         </section>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.min.js"></script>
     <script>
         const movies = [
             { 
-                title: "AILIEN", 
-                year: 2024, 
-                description: "🖥️👽 'Alien' AI takes sci-fi horror to the next level, exploring the terrifying potential of artificial intelligence gone rogue on a distant planet. Get ready for sleepless nights and existential dread! #AlienAI #SciFiHorror",
-                image: "/api/placeholder/400/300"
-            },
-            { 
-                title: "Dinosaurs", 
-                year: 2024, 
-                description: ""🦕 Did you know? The T-Rex lived closer in time to humans than to Stegosaurus! 🦖 These ancient giants continue to fascinate us 66 million years after their extinction. What's your favorite dino fact? 🔬 #DinosaurFacts #Paleontology",
-                image: "/api/placeholder/400/300"
-            },
-            { 
                 title: "Harry Potter AI", 
                 year: 2024, 
-                description: "⚡️🧙‍♂️ Mischief managed! 20+ years later, and we're still waiting for our Hogwarts letter. Which house would the Sorting Hat put you in? 🦁🦅🦡🐍 #HarryPotter #Potterhead",
-                image: "/api/placeholder/400/300"
+                description: "A programmer participates in a unique experiment involving a highly advanced AI.",
+                videoId: "EneLT78nTvg"
+            },
+            { 
+                title: "Her", 
+                year: 2013, 
+                description: "A man develops a relationship with an intelligent computer operating system with a female voice.",
+                videoId: "6QRvTv_tpw0"
+            },
+            { 
+                title: "I, Robot", 
+                year: 2004, 
+                description: "In 2035, a technophobic cop investigates a crime that may have been perpetrated by a robot.",
+                videoId: "rL6RRIOZyCM"
             }
         ];
 
@@ -100,12 +110,15 @@
                 const movieDiv = document.createElement('div');
                 movieDiv.className = 'movie';
                 movieDiv.innerHTML = `
-                    <img src="${movie.image}" alt="${movie.title} poster">
                     <h2>${movie.title} (${movie.year})</h2>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/${movie.videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
                     <p>${movie.description}</p>
                 `;
                 movieList.appendChild(movieDiv);
             });
+            iFrameResize({}, '.video-container iframe');
         }
 
         function subscribe() {
@@ -121,5 +134,4 @@
         window.onload = displayMovies;
     </script>
 </body>
-</html>
 </html>
