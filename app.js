@@ -89,3 +89,19 @@ cardContainers.forEach((item, i) => {
         item.scrollLeft -= containerWidth + 200;
     })
 })
+
+const movies = [
+    { 
+        title: "Ex Machina", 
+        year: 2014, 
+        description: "A programmer participates in a unique experiment involving a highly advanced AI.",
+        image: "/api/placeholder/400/300"
+    },
+    // ... other movies
+];
+
+movieDiv.innerHTML = `
+    <img src="${movie.image}" alt="${movie.title} poster">
+    <h2>${movie.title} (${movie.year})</h2>
+    <p>${movie.description}</p>
+`;
