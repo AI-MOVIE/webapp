@@ -105,3 +105,22 @@ movieDiv.innerHTML = `
     <h2>${movie.title} (${movie.year})</h2>
     <p>${movie.description}</p>
 `;
+
+const movies = [
+    { 
+        title: "Ex Machina", 
+        year: 2014, 
+        description: "A programmer participates in a unique experiment involving a highly advanced AI.",
+        videoId: "bggUCd5B0G8"
+    },
+    // ... other movies
+];
+
+movieDiv.innerHTML = `
+    <h2>${movie.title} (${movie.year})</h2>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/${movie.videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <p>${movie.description}</p>
+`;
+
