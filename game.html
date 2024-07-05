@@ -73,7 +73,7 @@
     </style>
 </head>
 <body>
-    <img src="images for new web/a-cinematic-battle-between-angels-and-demons.png" alt="Battle of Angels and Demons Banner" style="width:100%; max-width:800px; height:auto; margin-bottom:20px;">
+    <img src="battle between angels and demons.jpeg" alt="Battle of Angels and Demons Banner" style="width:100%; max-width:800px; height:auto; margin-bottom:20px;">
     
     <div id="game-container">
         <h1>Battle of Angels and Demons</h1>
@@ -111,11 +111,11 @@
         let enemyInterval;
 
         const cityBackgrounds = {
-            "New York": "a-cinematic-battle-between-angels-and-demons.png?text=New+York",
-            "Tokyo": "/api/placeholder/800/400?text=Tokyo",
-            "London": "/api/placeholder/800/400?text=London",
-            "Paris": "/api/placeholder/800/400?text=Paris",
-            "Sydney": "/api/placeholder/800/400?text=Sydney"
+            "New York": "newyork.jpeg",
+            "Tokyo": "tokyo.jpeg",
+            "London": "london.jpeg",
+            "Paris": "paris.jpeg",
+            "Sydney": "sydney.jpeg"
         };
 
         function chooseSide(side) {
@@ -133,8 +133,8 @@
             document.getElementById('battle-area').style.backgroundImage = `url('${cityBackgrounds[city]}')`;
             
             // Set player and enemy images
-            const playerImage = playerSide === 'Angel' ? "/a-cinematic-battle-between-angels-and-demons.png?text=Angel" : "/api/placeholder/60/60?text=Demon";
-            const enemyImage = playerSide === 'Angel' ? "/api/placeholder/60/60?text=Demon" : "/api/placeholder/60/60?text=Angel";
+            const playerImage = playerSide === 'Angel' ? "angelface.jpeg" : "demonface.jpeg";
+            const enemyImage = playerSide === 'Angel' ? "demonface.jpeg" : "angelface.jpeg";
             
             document.getElementById('player').style.backgroundImage = `url('${playerImage}')`;
             document.getElementById('enemy').style.backgroundImage = `url('${enemyImage}')`;
