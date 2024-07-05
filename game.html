@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle of Angels and Demons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        #game-container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #battle-area {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        #player, #enemy {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        #player {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #enemy {
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .bullet {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: yellow;
+            border-radius: 50%;
+        }
+        #score {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <img src="a-cinematic-battle-between-angels-and-demons.png" alt="Battle of Angels and Demons Banner" style="width:100%; max-width:800px; height:auto; margin-bottom:20px;">
+    
+    <div id="game-container">
+        <h1>Battle of Angels and Demons</h1>
+        <p>Choose your side and a city to battle in!</p>
+        <div id="side-selection">
+            <button onclick="chooseSide('Angel')">Play as Angel</button>
+            <button onclick="chooseSide('Demon')">Play as Demon</button>
+        </div>
+        <div id="city-selection" style="display: none;">
+            <h2>Select a City:</h2>
+            <select id="city-dropdown">
+                <option value="New York">New York</option>
+                <option value="Tokyo">Tokyo</option>
+                <option value="London">London</option>
+                <option value="Paris">Paris</option>
+                <option value="Sydney">Sydney</option>
+            </select>
+            <button onclick="startBattle()">Start Battle</button>
+        </div>
+        <div id="battle-area">
+            <div id="player"></div>
+            <div id="enemy"></div>
+        </div>
+        <div id="score">Score: 0</div>
+    </div>
+    
+    <video width="800" height="450" controls style="margin-top:20px;">
+        <source src="/api/placeholder/800/450" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        let playerSide;
+        let score = 0;
+        let enemyInterval;
+
+        const cityBackgrounds = {
+            "New York": "a-cinematic-battle-between-angels-and-demons.png?text=New+York",
+            "Tokyo": "/api/placeholder/800/400?text=Tokyo",
+            "London": "/api/placeholder/800/400?text=London",
+            "Paris": "/api/placeholder/800/400?text=Paris",
+            "Sydney": "/api/placeholder/800/400?text=Sydney"
+        };
+
+        function chooseSide(side) {
+            playerSide = side;
+            document.getElementById('city-selection').style.display = 'block';
+            document.getElementById('side-selection').style.display = 'none';
+        }
+
+        function startBattle() {
+            const city = document.getElementById('city-dropdown').value;
+            document.getElementById('city-selection').style.display = 'none';
+            document.getElementById('battle-area').style.display = 'block';
+            
+            // Set city background
+            document.getElementById('battle-area').style.backgroundImage = `url('${cityBackgrounds[city]}')`;
+            
+            // Set player and enemy images
+            const playerImage = playerSide === 'Angel' ? "/a-cinematic-battle-between-angels-and-demons.png?text=Angel" : "/api/placeholder/60/60?text=Demon";
+            const enemyImage = playerSide === 'Angel' ? "/api/placeholder/60/60?text=Demon" : "/api/placeholder/60/60?text=Angel";
+            
+            document.getElementById('player').style.backgroundImage = `url('${playerImage}')`;
+            document.getElementById('enemy').style.backgroundImage = `url('${enemyImage}')`;
+            
+            startEnemyMovement();
+            document.addEventListener('click', shoot);
+        }
+
+        function shoot(event) {
+            const bullet = document.createElement('div');
+            bullet.className = 'bullet';
+            bullet.style.left = event.clientX + 'px';
+            bullet.style.bottom = '70px';
+            document.getElementById('battle-area').appendChild(bullet);
+
+            const bulletInterval = setInterval(() => {
+                const bulletRect = bullet.getBoundingClientRect();
+                const enemyRect = document.getElementById('enemy').getBoundingClientRect();
+                
+                if (bulletRect.top <= enemyRect.bottom &&
+                    bulletRect.right >= enemyRect.left &&
+                    bulletRect.left <= enemyRect.right) {
+                    clearInterval(bulletInterval);
+                    bullet.remove();
+                    score++;
+                    document.getElementById('score').textContent = `Score: ${score}`;
+                    if (score >= 10) {
+                        endGame(true);
+                    }
+                } else if (bulletRect.top <= 0) {
+                    clearInterval(bulletInterval);
+                    bullet.remove();
+                } else {
+                    bullet.style.bottom = (parseInt(bullet.style.bottom) + 5) + 'px';
+                }
+            }, 20);
+        }
+
+        function startEnemyMovement() {
+            let direction = 1;
+            enemyInterval = setInterval(() => {
+                const enemy = document.getElementById('enemy');
+                const battleArea = document.getElementById('battle-area');
+                let left = parseInt(enemy.style.left) || battleArea.clientWidth / 2;
+                
+                if (left <= 0 || left >= battleArea.clientWidth - 60) {
+                    direction *= -1;
+                }
+                
+                enemy.style.left = (left + direction * 2) + 'px';
+            }, 20);
+        }
+
+        function endGame(playerWon) {
+            clearInterval(enemyInterval);
+            document.removeEventListener('click', shoot);
+            alert(playerWon ? `Congratulations! You've won as a ${playerSide}!` : `Game Over! The ${playerSide === 'Angel' ? 'Demons' : 'Angels'} have prevailed.`);
+        }
+    </script>
+</body>
+</html>
