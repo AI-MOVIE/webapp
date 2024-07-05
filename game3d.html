@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Battle of Angels and Demons</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+        #info {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">3D Battle of Angels and Demons<br>Use WASD to move, Mouse to look around, Click to shoot</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer, player, enemy, bullets = [];
+        let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false;
+        let velocity = new THREE.Vector3();
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            scene.add(directionalLight);
+
+            // Skybox (City Background)
+            const loader = new THREE.CubeTextureLoader();
+            const texture = loader.load([
+                'paris.jpeg?text=Right',
+                'london.jpeg?text=Left',
+                'sydney.jpeg?text=Top',
+                'tokyo.jpeg?text=Bottom',
+                'battle between angels and demons.jpeg?text=Front',
+                'paris.jpeg?text=Back'
+            ]);
+            scene.background = texture;
+
+            // Player (Angel)
+            const playerTexture = new THREE.TextureLoader().load('angelface.jpeg?text=Angel');
+            const playerMaterial = new THREE.SpriteMaterial({ map: playerTexture });
+            player = new THREE.Sprite(playerMaterial);
+            player.scale.set(2, 2, 1);
+            player.position.set(0, 0, 5);
+            scene.add(player);
+            camera.position.set(0, 2, 8);
+
+            // Enemy (Demon)
+            const enemyTexture = new THREE.TextureLoader().load('demonface.jpeg?text=Demon');
+            const enemyMaterial = new THREE.SpriteMaterial({ map: enemyTexture });
+            enemy = new THREE.Sprite(enemyMaterial);
+            enemy.scale.set(2, 2, 1);
+            enemy.position.set(0, 0, -5);
+            scene.add(enemy);
+
+            // Floor
+            const floorTexture = new THREE.TextureLoader().load('/api/placeholder/1024/1024?text=Floor');
+            floorTexture.wrapS = THREE.RepeatWrapping;
+            floorTexture.wrapT = THREE.RepeatWrapping;
+            floorTexture.repeat.set(10, 10);
+            const floorMaterial = new THREE.MeshPhongMaterial({ map: floorTexture, side: THREE.DoubleSide });
+            const floorGeometry = new THREE.PlaneGeometry(100, 100);
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = Math.PI / 2;
+            floor.position.y = -1;
+            scene.add(floor);
+
+            document.addEventListener('keydown', onKeyDown, false);
+            document.addEventListener('keyup', onKeyUp, false);
+            document.addEventListener('mousemove', onMouseMove, false);
+            document.addEventListener('click', shoot, false);
+
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function onKeyDown(event) {
+            switch (event.code) {
+                case 'KeyW': moveForward = true; break;
+                case 'KeyS': moveBackward = true; break;
+                case 'KeyA': moveLeft = true; break;
+                case 'KeyD': moveRight = true; break;
+            }
+        }
+
+        function onKeyUp(event) {
+            switch (event.code) {
+                case 'KeyW': moveForward = false; break;
+                case 'KeyS': moveBackward = false; break;
+                case 'KeyA': moveLeft = false; break;
+                case 'KeyD': moveRight = false; break;
+            }
+        }
+
+        function onMouseMove(event) {
+            const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+            const movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+            camera.rotation.y -= movementX * 0.002;
+            camera.rotation.x -= movementY * 0.002;
+            camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+        }
+
+        function shoot() {
+            const bulletGeometry = new THREE.SphereGeometry(0.1, 32, 32);
+            const bulletMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+            const bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
+            bullet.position.set(player.position.x, player.position.y, player.position.z);
+            bullet.velocity = new THREE.Vector3(
+                -Math.sin(camera.rotation.y) * Math.cos(camera.rotation.x),
+                Math.sin(camera.rotation.x),
+                -Math.cos(camera.rotation.y) * Math.cos(camera.rotation.x)
+            );
+            bullets.push(bullet);
+            scene.add(bullet);
+        }
+
+        function update() {
+            velocity.x = (Number(moveRight) - Number(moveLeft)) * 0.1;
+            velocity.z = (Number(moveBackward) - Number(moveForward)) * 0.1;
+
+            player.position.x += velocity.x;
+            player.position.z += velocity.z;
+
+            camera.position.x = player.position.x;
+            camera.position.z = player.position.z + 3;
+
+            // Make player and enemy face the camera
+            player.material.rotation = camera.rotation.y;
+            enemy.material.rotation = Math.atan2(camera.position.x - enemy.position.x, camera.position.z - enemy.position.z);
+
+            // Update enemy position (simple AI)
+            enemy.position.x += (player.position.x - enemy.position.x) * 0.01;
+            enemy.position.z += (player.position.z - enemy.position.z) * 0.01;
+
+            // Update bullets
+            for (let i = 0; i < bullets.length; i++) {
+                bullets[i].position.add(bullets[i].velocity);
+
+                // Check for collision with enemy
+                if (bullets[i].position.distanceTo(enemy.position) < 1) {
+                    scene.remove(bullets[i]);
+                    bullets.splice(i, 1);
+                    enemy.position.set(Math.random() * 10 - 5, 0, Math.random() * 10 - 5);
+                    i--;
+                } else if (bullets[i].position.length() > 100) {
+                    scene.remove(bullets[i]);
+                    bullets.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            update();
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
