@@ -46,6 +46,7 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            transition: left 0.1s ease-out;
         }
         #player {
             bottom: 10px;
@@ -101,7 +102,7 @@
     </div>
     
     <video width="800" height="450" controls style="margin-top:20px;">
-        <source src="/api/placeholder/800/450" type="video/mp4">
+        <source src="https://your-domain.com/videos/battle-of-angels-and-demons-trailer.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
@@ -109,11 +110,14 @@
         let playerSide;
         let score = 0;
         let enemyInterval;
+        let playerPosition = 50;
+        let enemyPosition = 50;
+        const moveSpeed = 5;
 
         const cityBackgrounds = {
             "New York": "newyork.jpeg",
             "Tokyo": "tokyo.jpeg",
-            "London": "london.jpeg",
+            "London": "londonjpeg",
             "Paris": "paris.jpeg",
             "Sydney": "sydney.jpeg"
         };
@@ -129,10 +133,8 @@
             document.getElementById('city-selection').style.display = 'none';
             document.getElementById('battle-area').style.display = 'block';
             
-            // Set city background
             document.getElementById('battle-area').style.backgroundImage = `url('${cityBackgrounds[city]}')`;
             
-            // Set player and enemy images
             const playerImage = playerSide === 'Angel' ? "angelface.jpeg" : "demonface.jpeg";
             const enemyImage = playerSide === 'Angel' ? "demonface.jpeg" : "angelface.jpeg";
             
@@ -140,13 +142,31 @@
             document.getElementById('enemy').style.backgroundImage = `url('${enemyImage}')`;
             
             startEnemyMovement();
+            document.addEventListener('keydown', movePlayer);
             document.addEventListener('click', shoot);
+        }
+
+        function movePlayer(event) {
+            const player = document.getElementById('player');
+            const battleArea = document.getElementById('battle-area');
+
+            switch(event.key) {
+                case 'ArrowLeft':
+                    playerPosition = Math.max(0, playerPosition - moveSpeed);
+                    break;
+                case 'ArrowRight':
+                    playerPosition = Math.min(100, playerPosition + moveSpeed);
+                    break;
+            }
+
+            player.style.left = `${playerPosition}%`;
         }
 
         function shoot(event) {
             const bullet = document.createElement('div');
             bullet.className = 'bullet';
-            bullet.style.left = event.clientX + 'px';
+            const playerRect = document.getElementById('player').getBoundingClientRect();
+            bullet.style.left = `${playerRect.left + playerRect.width / 2}px`;
             bullet.style.bottom = '70px';
             document.getElementById('battle-area').appendChild(bullet);
 
@@ -176,20 +196,19 @@
         function startEnemyMovement() {
             let direction = 1;
             enemyInterval = setInterval(() => {
-                const enemy = document.getElementById('enemy');
-                const battleArea = document.getElementById('battle-area');
-                let left = parseInt(enemy.style.left) || battleArea.clientWidth / 2;
+                enemyPosition += direction * moveSpeed / 2;
                 
-                if (left <= 0 || left >= battleArea.clientWidth - 60) {
+                if (enemyPosition <= 0 || enemyPosition >= 100) {
                     direction *= -1;
                 }
                 
-                enemy.style.left = (left + direction * 2) + 'px';
-            }, 20);
+                document.getElementById('enemy').style.left = `${enemyPosition}%`;
+            }, 50);
         }
 
         function endGame(playerWon) {
             clearInterval(enemyInterval);
+            document.removeEventListener('keydown', movePlayer);
             document.removeEventListener('click', shoot);
             alert(playerWon ? `Congratulations! You've won as a ${playerSide}!` : `Game Over! The ${playerSide === 'Angel' ? 'Demons' : 'Angels'} have prevailed.`);
         }
