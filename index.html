@@ -1,86 +1,73 @@
 import React from 'react';
 import { Play, Tv, Film, User } from 'lucide-react';
+npm install tailwindcss lucide-react
 
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
       <header className="container mx-auto px-4 py-6 flex justify-between items-center">
         <h1 className="text-2xl font-bold">AI MOVIE CLUB</h1>
-        <link rel="icon" href="images for new web/profile.ico"
-          <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-PW7DR7Z9');</script>
-<!-- End Google Tag Manager -->
         <nav>
           <ul className="flex space-x-4">
-            <li><a href="newsletter.html" className="hover:text-blue-400">Newsletter</a></li>
-            <li><a href="game.html" className="hover:text-blue-400">Game<</a></li>
-            <li><a href="game3d.html" className="hover:text-blue-400">Game 3D</a></li>
-          
+            <li><a href="#home" className="hover:text-blue-400">Home</a></li>
+            <li><a href="#features" className="hover:text-blue-400">Features</a></li>
+            <li><a href="#about" className="hover:text-blue-400">About</a></li>
+            <li><a href="#contact" className="hover:text-blue-400">Contact</a></li>
           </ul>
         </nav>
       </header>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PW7DR7Z9"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
       <main className="container mx-auto px-4 py-16">
-        <section className="flex flex-col md:flex-row items-center mb-16">
-          <div className="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
-            <h2 className="text-5xl font-bold mb-4">Shaping The Next Era Of Streaming Entertainment</h2>
-            <p className="text-xl mb-8">Experience AI-powered movie recommendations and content creation</p>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-flex items-center">
-              <Play className="mr-2" />
-              Get Started
-            </button>
-          </div>
-          <div className="md:w-1/2">
-            <img src="images for new web/a-cinematic-battle-between-angels-and-demons.png" alt="AI-powered streaming" className="rounded-lg shadow-lg" />
-          </div>
+        <section id="home" className="text-center mb-16">
+          <h2 className="text-5xl font-bold mb-4">Shaping The Next Era Of Streaming Entertainment</h2>
+          <p className="text-xl mb-8">Experience AI-powered movie recommendations and content creation</p>
+          <a href="#features" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-flex items-center">
+            <Play className="mr-2" />
+            Get Started
+          </a>
         </section>
 
-        <section className="grid md:grid-cols-3 gap-8 mb-16">
+        <section id="features" className="grid md:grid-cols-3 gap-8 mb-16">
           <div className="bg-gray-800 p-6 rounded-lg">
             <Tv className="w-12 h-12 mb-4 text-blue-400" />
             <h3 className="text-xl font-semibold mb-2">Smart Recommendations</h3>
-            <p className="mb-4">Our AI analyzes your viewing history to suggest movies you'll love.</p>
-            <img src="images for new web/a-cinematic-movie-about-aliens.png" alt="Smart Recommendations" className="w-full rounded-lg" />
+            <p>Our AI analyzes your viewing history to suggest movies you'll love.</p>
+            <img src="/api/placeholder/400/300" alt="Smart Recommendations" className="w-full rounded-lg mt-4" />
           </div>
           <div className="bg-gray-800 p-6 rounded-lg">
             <Film className="w-12 h-12 mb-4 text-blue-400" />
             <h3 className="text-xl font-semibold mb-2">AI-Generated Content</h3>
-            <p className="mb-4">Experience unique, AI-created movie trailers and summaries.</p>
-            <img src="images for new web/a-cinematic-movie-about-crusader-knights.png" alt="AI-Generated Content" className="w-full rounded-lg" />
+            <p>Experience unique, AI-created movie trailers and summaries.</p>
+            <img src="/api/placeholder/400/300" alt="AI-Generated Content" className="w-full rounded-lg mt-4" />
           </div>
           <div className="bg-gray-800 p-6 rounded-lg">
             <User className="w-12 h-12 mb-4 text-blue-400" />
             <h3 className="text-xl font-semibold mb-2">Personalized Experience</h3>
-            <p className="mb-4">Enjoy a streaming platform that adapts to your preferences.</p>
-            <img src="images for new web/a-cinematic-movie-about-nasa.png" alt="Personalized Experience" className="w-full rounded-lg" />
+            <p>Enjoy a streaming platform that adapts to your preferences.</p>
+            <img src="/api/placeholder/400/300" alt="Personalized Experience" className="w-full rounded-lg mt-4" />
           </div>
         </section>
 
-        <section className="flex flex-col md:flex-row items-center bg-gray-800 rounded-lg p-8 mb-16">
-          <div className="md:w-1/2 mb-8 md:mb-0">
-            <img src="images for new web/a-cinematic-movie-about-pizza.png" alt="AI Movie Analysis" className="rounded-lg shadow-lg" />
-          </div>
-          <div className="md:w-1/2 md:pl-8">
-            <h2 className="text-3xl font-bold mb-4">Discover the Power of AI in Cinema</h2>
-            <p className="mb-4">Our advanced AI technology doesn't just recommend movies - it understands them. Get in-depth analysis, hidden gem discoveries, and a whole new way to appreciate film.</p>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-              Learn More
-            </button>
+        <section id="about" className="bg-gray-800 rounded-lg p-8 mb-16">
+          <div className="md:flex items-center">
+            <div className="md:w-1/2 mb-8 md:mb-0">
+              <img src="/api/placeholder/600/400" alt="AI Movie Analysis" className="rounded-lg shadow-lg" />
+            </div>
+            <div className="md:w-1/2 md:pl-8">
+              <h2 className="text-3xl font-bold mb-4">Discover the Power of AI in Cinema</h2>
+              <p className="mb-4">Our advanced AI technology doesn't just recommend movies - it understands them. Get in-depth analysis, hidden gem discoveries, and a whole new way to appreciate film.</p>
+              <a href="#contact" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-block">
+                Learn More
+              </a>
+            </div>
           </div>
         </section>
 
-        <section className="text-center">
+        <section id="contact" className="text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to revolutionize your streaming experience?</h2>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+          <a href="mailto:contact@aimovieclub.com" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-block">
             Join AI MOVIE CLUB Now
-          </button>
+          </a>
         </section>
       </main>
 
