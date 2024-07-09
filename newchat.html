@@ -8,15 +8,38 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: #00008B; /* Dark blue background */
+            color: white;
+        }
+        #header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #image-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        #image-container img {
+            width: 100px;
+            height: 100px;
+            margin: 0 10px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        #tagline {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
         #chat-container {
             width: 400px;
-            height: 600px;
+            height: 500px;
             border: 1px solid #ccc;
             border-radius: 5px;
             display: flex;
@@ -29,6 +52,7 @@
             padding: 10px;
             display: flex;
             flex-direction: column;
+            background-color: #f0f0f0;
         }
         .message {
             max-width: 80%;
@@ -43,11 +67,13 @@
         }
         .bot-message {
             align-self: flex-start;
-            background-color: #f1f0f0;
+            background-color: #e0e0e0;
+            color: black;
         }
         #user-input {
             display: flex;
             padding: 10px;
+            background-color: white;
         }
         #user-input input {
             flex-grow: 1;
@@ -67,6 +93,15 @@
     </style>
 </head>
 <body>
+    <div id="header">
+        <div id="image-container">
+            <img src="/api/placeholder/100/100" alt="Movie 1">
+            <img src="/api/placeholder/100/100" alt="Movie 2">
+            <img src="/api/placeholder/100/100" alt="Movie 3">
+            <img src="/api/placeholder/100/100" alt="Movie 4">
+        </div>
+        <div id="tagline">Watch your AI MOVIE in a simple PROMPT.</div>
+    </div>
     <div id="chat-container">
         <div id="chat-messages"></div>
         <div id="user-input">
