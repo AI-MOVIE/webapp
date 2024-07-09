@@ -9,12 +9,36 @@
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #00008B; /* Dark blue background */
+            background-color: #f0f0f0; /* Light gray background */
+            color: #333;
+        }
+        nav {
+            background-color: #333;
             color: white;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        #main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
         }
         #header {
             text-align: center;
@@ -52,7 +76,6 @@
             padding: 10px;
             display: flex;
             flex-direction: column;
-            background-color: #f0f0f0;
         }
         .message {
             max-width: 80%;
@@ -73,7 +96,7 @@
         #user-input {
             display: flex;
             padding: 10px;
-            background-color: white;
+            background-color: #f8f8f8;
         }
         #user-input input {
             flex-grow: 1;
@@ -90,25 +113,47 @@
             margin-left: 5px;
             cursor: pointer;
         }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <div id="header">
-        <div id="image-container">
-            <img src="/api/placeholder/100/100" alt="Movie 1">
-            <img src="/api/placeholder/100/100" alt="Movie 2">
-            <img src="/api/placeholder/100/100" alt="Movie 3">
-            <img src="/api/placeholder/100/100" alt="Movie 4">
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Movies</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div id="main-content">
+        <div id="header">
+            <div id="image-container">
+                <img src="/api/placeholder/100/100" alt="Movie 1">
+                <img src="/api/placeholder/100/100" alt="Movie 2">
+                <img src="/api/placeholder/100/100" alt="Movie 3">
+                <img src="/api/placeholder/100/100" alt="Movie 4">
+            </div>
+            <div id="tagline">Watch your AI MOVIE in a simple PROMPT.</div>
         </div>
-        <div id="tagline">Watch your AI MOVIE in a simple PROMPT.</div>
-    </div>
-    <div id="chat-container">
-        <div id="chat-messages"></div>
-        <div id="user-input">
-            <input type="text" id="user-message" placeholder="Type your message...">
-            <button onclick="sendMessage()">Send</button>
+        <div id="chat-container">
+            <div id="chat-messages"></div>
+            <div id="user-input">
+                <input type="text" id="user-message" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
         </div>
     </div>
+
+    <footer>
+        &copy; 2024 AI Movie Club. All rights reserved.
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
