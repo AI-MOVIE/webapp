@@ -11,9 +11,6 @@ body, html {
     background-size: cover;
     color: white;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
 }
 
 .navbar{
