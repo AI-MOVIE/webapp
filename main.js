@@ -69,7 +69,7 @@ window.addEventListener('resize', () => {
 function updateIframePosition() {
     const iframeContainer = document.getElementById('video-iframe-container');
     const vector = new THREE.Vector3();
-    const widthHalf = 0.5 * renderer.getContext().canvas.width;
+   const widthHalf = 0.5 * renderer.getContext().canvas.width;
     const heightHalf = 0.5 * renderer.getContext().canvas.height;
 
 screen.updateMatrixWorld();
@@ -90,3 +90,4 @@ iframeContainer.style.transform = `translate(-50%, -50%)`;
 iframeContainer.style.left = `${x}px`;
 iframeContainer.style.top = `${y}px`;
 }
+ 
