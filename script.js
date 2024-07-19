@@ -7,6 +7,6 @@ iframe.style.border = 'none';
 document.getElementById('webgl-output').appendChild(iframe);
 
 const loader = new THREE.GLTFLoader();
-loader.load('path/to/model.glb', function (gltf) {
+loader.load('images for new web/meta.glb', function (gltf) {
     scene.add(gltf.scene);
 });
