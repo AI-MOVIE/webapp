@@ -27,9 +27,9 @@ function init() {
     // Load Skybox
     const loader = new THREE.CubeTextureLoader();
     const texture = loader.load([
-        'path/to/skybox/px.jpg', 'path/to/skybox/nx.jpg',
-        'path/to/skybox/py.jpg', 'path/to/skybox/ny.jpg',
-        'path/to/skybox/pz.jpg', 'path/to/skybox/nz.jpg'
+        'images for new web/a-cinematic-movie-about-aliens.png', 'images for new web/a-cinematic-movie-about-aliens.png',
+        'images for new web/a-cinematic-movie-about-aliens.png', 'images for new web/a-cinematic-movie-about-aliens.png',
+        'images for new web/a-cinematic-movie-about-aliens.png', 'images for new web/a-cinematic-movie-about-aliens.png'
     ]);
     scene.background = texture;
     
