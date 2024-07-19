@@ -1,4 +1,3 @@
-// Main.js
 let scene, camera, renderer, controls;
 
 function init() {
@@ -28,9 +27,9 @@ function init() {
     // Load Skybox
     const loader = new THREE.CubeTextureLoader();
     const texture = loader.load([
-        'images for new web/a-cinematic-movie-about--north-pole.png', 'images for new web/a-cinematic-movie-about--north-pole.png',
-        'images for new web/a-cinematic-movie-about--north-pole.png', 'images for new web/a-cinematic-movie-about--north-pole.png',
-        'images for new web/a-cinematic-movie-about--north-pole.png', 'images for new web/a-cinematic-movie-about--north-pole.png'
+        'path/to/skybox/px.jpg', 'path/to/skybox/nx.jpg',
+        'path/to/skybox/py.jpg', 'path/to/skybox/ny.jpg',
+        'path/to/skybox/pz.jpg', 'path/to/skybox/nz.jpg'
     ]);
     scene.background = texture;
     
@@ -49,13 +48,20 @@ function init() {
     scene.add(screen);
     
     // Render loop
-    const animate = function () {
+    function animate() {
         requestAnimationFrame(animate);
         controls.update();
         renderer.render(scene, camera);
-    };
+    }
     animate();
 }
 
-// Initialize the scene
 init();
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
