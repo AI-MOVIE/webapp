@@ -27,9 +27,9 @@ function init() {
     // Load Skybox
     const loader = new THREE.CubeTextureLoader();
     const texture = loader.load([
-        'images for new web/20.jpg', 'images for new web/21.jpg',
-        'images for new web/22.jpg', 'images for new web/24.jpg',
-        'images for new web/25.jpg', 'images for new web/26.jpg'
+        'images for new web/a-cinematic-movie-about-paranormal-activity.png', 'images for new web/a-cinematic-movie-about-paranormal-activity.png',
+        'images for new web/a-cinematic-movie-about-paranormal-activity.png', 'images for new web/a-cinematic-movie-about-paranormal-activity.png',
+        'images for new web/a-cinematic-movie-about-paranormal-activity.png', 'images for new web/a-cinematic-movie-about-paranormal-activity.png'
     ]);
     scene.background = texture;
     
