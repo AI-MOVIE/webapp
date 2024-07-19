@@ -1,4 +1,4 @@
-let scene, camera, renderer, controls;
+let scene, camera, renderer, controls, screen;
 
 function init() {
     // Scene setup
@@ -40,10 +40,10 @@ function init() {
     ground.rotation.x = -Math.PI / 2;
     scene.add(ground);
     
-    // Add the giant screen (just as a reference object, not functional for video)
+    // Add the giant screen
     const screenGeometry = new THREE.PlaneGeometry(16, 9);
     const screenMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
-    const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+    screen = new THREE.Mesh(screenGeometry, screenMaterial);
     screen.position.set(0, 5, -20);
     scene.add(screen);
     
@@ -51,6 +51,7 @@ function init() {
     function animate() {
         requestAnimationFrame(animate);
         controls.update();
+        updateIframePosition();
         renderer.render(scene, camera);
     }
     animate();
@@ -64,3 +65,27 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+function updateIframePosition() {
+    const iframe = document.getElementById('video-iframe');
+    
+    // Get the screen position in the 3D scene
+    const vector = new THREE.Vector3();
+    const widthHalf = 0.5 * renderer.getContext().canvas.width;
+    const heightHalf = 0.5 * renderer.getContext().canvas.height;
+    
+    screen.updateMatrixWorld();
+    vector.setFromMatrixPosition(screen.matrixWorld);
+    vector.project(camera);
+
+    // Convert to 2D screen coordinates
+    const x = (vector.x * widthHalf) + widthHalf;
+    const y = -(vector.y * heightHalf) + heightHalf;
+
+    // Set the position and size of the iframe
+    iframe.style.width = '640px';
+    iframe.style.height = '360px';
+    iframe.style.transform = `translate(-50%, -50%)`;
+    iframe.style.left = `${x}px`;
+    iframe.style.top = `${y}px`;
+}
