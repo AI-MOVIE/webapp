@@ -27,15 +27,15 @@
         // Skybox
         const skyboxLoader = new THREE.CubeTextureLoader();
         const skyboxTexture = skyboxLoader.load([
-            '/api/placeholder/512/512', '/api/placeholder/512/512',
-            '/api/placeholder/512/512', '/api/placeholder/512/512',
-            '/api/placeholder/512/512', '/api/placeholder/512/512'
+            'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png', 'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png',
+            'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png', 'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png',
+            'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png', 'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png'
         ]);
         scene.background = skyboxTexture;
 
         // Ground texture
         const textureLoader = new THREE.TextureLoader();
-        const groundTexture = textureLoader.load('/api/placeholder/1024/1024');
+        const groundTexture = textureLoader.load('images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png');
         groundTexture.wrapS = THREE.RepeatWrapping;
         groundTexture.wrapT = THREE.RepeatWrapping;
         groundTexture.repeat.set(10, 10);
@@ -46,7 +46,7 @@
         scene.add(ground);
 
         // Building texture
-        const buildingTexture = textureLoader.load('/api/placeholder/512/512');
+        const buildingTexture = textureLoader.load('images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png');
         const buildingMaterial = new THREE.MeshPhongMaterial({ map: buildingTexture });
 
         function createBuilding(x, z) {
@@ -62,7 +62,7 @@
         }
 
         // Billboard
-        const billboardTexture = textureLoader.load('/api/placeholder/512/256');
+        const billboardTexture = textureLoader.load('images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png');
         const billboardMaterial = new THREE.SpriteMaterial({ map: billboardTexture });
         const billboard = new THREE.Sprite(billboardMaterial);
         billboard.scale.set(20, 10, 1);
