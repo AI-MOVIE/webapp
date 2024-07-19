@@ -67,25 +67,26 @@ window.addEventListener('resize', () => {
 });
 
 function updateIframePosition() {
-    const iframe = document.getElementById('video-iframe');
-    
-    // Get the screen position in the 3D scene
+    const iframeContainer = document.getElementById('video-iframe-container');
     const vector = new THREE.Vector3();
     const widthHalf = 0.5 * renderer.getContext().canvas.width;
     const heightHalf = 0.5 * renderer.getContext().canvas.height;
-    
-    screen.updateMatrixWorld();
-    vector.setFromMatrixPosition(screen.matrixWorld);
-    vector.project(camera);
 
-    // Convert to 2D screen coordinates
-    const x = (vector.x * widthHalf) + widthHalf;
-    const y = -(vector.y * heightHalf) + heightHalf;
+screen.updateMatrixWorld();
+vector.setFromMatrixPosition(screen.matrixWorld);
+vector.project(camera);
 
-    // Set the position and size of the iframe
-    iframe.style.width = '640px';
-    iframe.style.height = '360px';
-    iframe.style.transform = `translate(-50%, -50%)`;
-    iframe.style.left = `${x}px`;
-    iframe.style.top = `${y}px`;
+// Convert to 2D screen coordinates
+const x = (vector.x * widthHalf) + widthHalf;
+const y = -(vector.y * heightHalf) + heightHalf;
+
+// Set the position and size of the iframe container
+const iframeWidth = 640;  // Adjust this value based on your screen size
+const iframeHeight = 360; // Adjust this value based on your screen size
+
+iframeContainer.style.width = `${iframeWidth}px`;
+iframeContainer.style.height = `${iframeHeight}px`;
+iframeContainer.style.transform = `translate(-50%, -50%)`;
+iframeContainer.style.left = `${x}px`;
+iframeContainer.style.top = `${y}px`;
 }
