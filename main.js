@@ -27,15 +27,15 @@ function init() {
     // Load Skybox
     const loader = new THREE.CubeTextureLoader();
     const texture = loader.load([
-        'images for new web/1_cleanup.jpeg', 'images for new web/1_cleanup.jpeg',
-        'images for new web/2_cleanup.jpeg', 'images for new web/2_cleanup.jpeg',
-        'images for new web/2_cleanup.jpeg', 'images for new web/2_cleanup.jpeg'
+        'images for new web/20.jpg', 'images for new web/21.jpg',
+        'images for new web/22.jpg', 'images for new web/24.jpg',
+        'images for new web/25.jpg', 'images for new web/26.jpg'
     ]);
     scene.background = texture;
     
     // Ground
     const groundGeometry = new THREE.PlaneGeometry(100, 100);
-    const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
+    const groundMaterial = new THREE.MeshStandardMaterial({ color: #B6D7A8 });
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.rotation.x = -Math.PI / 2;
     scene.add(ground);
