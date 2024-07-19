@@ -49,7 +49,7 @@ function init() {
     
     // Add video texture to the screen
     const video = document.createElement('video');
-    video.src = 'https://youtu.be/EneLT78nTvg'; // Replace with your video URL
+    video.src = 'https://youtu.be/EneLT78nTvg?feature=shared'; // Replace with your video URL
     video.crossOrigin = 'anonymous';
     video.load();
     video.play();
