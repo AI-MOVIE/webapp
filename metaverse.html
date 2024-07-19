@@ -3,173 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avant-Garde City with Chatbot</title>
+    <title>3D Simulation</title>
     <style>
-        body { margin: 0; overflow: hidden; }
-        #info { position: absolute; top: 10px; width: 100%; text-align: center; color: white; }
-        #chatbotContainer { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            width: 300px; 
-            height: 400px; 
-            display: none;
-        }
-        #chatbot { width: 100%; height: 100%; border: none; }
+        body { margin: 0; }
+        canvas { display: block; }
     </style>
 </head>
 <body>
-    <div id="info">Use WASD to move, Mouse to look around. Press 'E' near the screen to open/close chatbot.</div>
-    <div id="chatbotContainer">
-        <iframe id="chatbot" src="about:blank"></iframe>
-    </div>
-    <script src="images for new web/a-cinematic-movie-about-scary-movie.png"></script>
-    <script src="images for new web/a-cinematic-movie-about-scary-movie.png"></script>
-    <script>
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+    <div id="webgl-output"></div>
+    <script src="https://threejs.org/build/three.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/stats.min.js"></script>
+    <script src="main.js"></script>
 
-        // PointerLock Controls
-        const controls = new THREE.PointerLockControls(camera, document.body);
-        document.addEventListener('click', () => controls.lock());
+    // Add Iframe to the screen
+const iframe = document.createElement('iframe');
+iframe.src = 'path/to/your/chatbot';
+iframe.style.width = '100%';
+iframe.style.height = '100%';
+iframe.style.border = 'none';
+document.getElementById('webgl-output').appendChild(iframe);
 
-        // Avant-garde city elements
-        function createCity() {
-            const cityGroup = new THREE.Group();
+const loader = new THREE.GLTFLoader();
+loader.load('path/to/model.glb', function (gltf) {
+    scene.add(gltf.scene);
+});
 
-            // Ground
-            const groundGeometry = new THREE.PlaneGeometry(200, 200);
-            const groundMaterial = new THREE.MeshPhongMaterial({ color: 0x3a9efd, shininess: 10 });
-            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-            ground.rotation.x = -Math.PI / 2;
-            cityGroup.add(ground);
-
-            // Futuristic buildings
-            for (let i = 0; i < 50; i++) {
-                const height = Math.random() * 30 + 10;
-                const geometry = new THREE.CylinderGeometry(2 + Math.random() * 3, 2 + Math.random() * 3, height, 6);
-                const material = new THREE.MeshPhongMaterial({ 
-                    color: Math.random() * 0xffffff,
-                    emissive: 0x111111,
-                    shininess: 30
-                });
-                const building = new THREE.Mesh(geometry, material);
-                building.position.set(
-                    Math.random() * 180 - 90,
-                    height / 2,
-                    Math.random() * 180 - 90
-                );
-                cityGroup.add(building);
-            }
-
-            return cityGroup;
-        }
-
-        const city = createCity();
-        scene.add(city);
-
-        // Central screen for chatbot
-        const screenGeometry = new THREE.PlaneGeometry(40, 30);
-        const screenMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-        const screen = new THREE.Mesh(screenGeometry, screenMaterial);
-        screen.position.set(0, 15, -30);
-        scene.add(screen);
-
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0x404040);
-        scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-        directionalLight.position.set(1, 1, 1);
-        scene.add(directionalLight);
-
-        // Add some floating particles for atmosphere
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCnt = 5000;
-        const posArray = new Float32Array(particlesCnt * 3);
-        for(let i = 0; i < particlesCnt * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 200;
-        }
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({size: 0.005, color: 0x7fbfff});
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        camera.position.set(0, 5, 30);
-
-        const velocity = new THREE.Vector3();
-        const direction = new THREE.Vector3();
-        let moveForward = false;
-        let moveBackward = false;
-        let moveLeft = false;
-        let moveRight = false;
-
-        document.addEventListener('keydown', onKeyDown);
-        document.addEventListener('keyup', onKeyUp);
-
-        function onKeyDown(event) {
-            switch (event.code) {
-                case 'KeyW': moveForward = true; break;
-                case 'KeyA': moveLeft = true; break;
-                case 'KeyS': moveBackward = true; break;
-                case 'KeyD': moveRight = true; break;
-                case 'KeyE': toggleChatbot(); break;
-            }
-        }
-
-        function onKeyUp(event) {
-            switch (event.code) {
-                case 'KeyW': moveForward = false; break;
-                case 'KeyA': moveLeft = false; break;
-                case 'KeyS': moveBackward = false; break;
-                case 'KeyD': moveRight = false; break;
-            }
-        }
-
-        function updateControls() {
-            if (controls.isLocked) {
-                const delta = 0.1;
-
-                velocity.x -= velocity.x * 10.0 * delta;
-                velocity.z -= velocity.z * 10.0 * delta;
-
-                direction.z = Number(moveForward) - Number(moveBackward);
-                direction.x = Number(moveRight) - Number(moveLeft);
-                direction.normalize();
-
-                if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
-                if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
-
-                controls.moveRight(-velocity.x * delta);
-                controls.moveForward(-velocity.z * delta);
-            }
-        }
-
-        function toggleChatbot() {
-            const distance = camera.position.distanceTo(screen.position);
-            if (distance < 20) {
-                const chatbotContainer = document.getElementById('chatbotContainer');
-                chatbotContainer.style.display = chatbotContainer.style.display === 'none' ? 'block' : 'none';
-            }
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            updateControls();
-            particlesMesh.rotation.y += 0.0005;
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
+    
 </body>
 </html>
+
