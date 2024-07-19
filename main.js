@@ -47,14 +47,24 @@ function init() {
     screen.position.set(0, 5, -20);
     scene.add(screen);
     
-    // Add video texture to the screen
+    // Create a video element
     const video = document.createElement('video');
     video.src = 'https://youtu.be/EneLT78nTvg?feature=shared'; // Replace with your video URL
     video.crossOrigin = 'anonymous';
+    video.muted = true; // Mute video to allow autoplay in some browsers
+    video.playsInline = true; // Ensures the video plays inline on mobile devices
+    video.autoplay = true;
+    video.loop = true;
     video.load();
     video.play();
 
+    // Create a video texture
     const videoTexture = new THREE.VideoTexture(video);
+    videoTexture.minFilter = THREE.LinearFilter;
+    videoTexture.magFilter = THREE.LinearFilter;
+    videoTexture.format = THREE.RGBFormat;
+
+    // Apply the video texture to the screen
     screen.material.map = videoTexture;
     screen.material.needsUpdate = true;
     
