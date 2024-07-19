@@ -3,18 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI MOVIE 3D</title>
+    <title>AI MOVIE 3D Simulation</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
+        #video-iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 640px;
+            height: 360px;
+            border: none;
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
     <div id="webgl-output"></div>
+    <iframe id="video-iframe" src="https://www.youtube.com/embed/EneLT78nTvg?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/stats.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
+
 
