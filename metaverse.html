@@ -3,20 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Textured 3D City Scene</title>
+    <title>Avant-Garde City with Chatbot</title>
     <style>
         body { margin: 0; overflow: hidden; }
         #info { position: absolute; top: 10px; width: 100%; text-align: center; color: white; }
+        #chatbotContainer { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            width: 300px; 
+            height: 400px; 
+            display: none;
+        }
+        #chatbot { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
-    <div id="info">Use WASD to move, Mouse to look around</div>
+    <div id="info">Use WASD to move, Mouse to look around. Press 'E' near the screen to open/close chatbot.</div>
+    <div id="chatbotContainer">
+        <iframe id="chatbot" src="about:blank"></iframe>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/PointerLockControls.js"></script>
     <script>
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
@@ -24,50 +37,47 @@
         const controls = new THREE.PointerLockControls(camera, document.body);
         document.addEventListener('click', () => controls.lock());
 
-        // Skybox
-        const skyboxLoader = new THREE.CubeTextureLoader();
-        const skyboxTexture = skyboxLoader.load([
-            'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png', 'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png',
-            'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png', 'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png',
-            'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png', 'images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png'
-        ]);
-        scene.background = skyboxTexture;
+        // Avant-garde city elements
+        function createCity() {
+            const cityGroup = new THREE.Group();
 
-        // Ground texture
-        const textureLoader = new THREE.TextureLoader();
-        const groundTexture = textureLoader.load('images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png');
-        groundTexture.wrapS = THREE.RepeatWrapping;
-        groundTexture.wrapT = THREE.RepeatWrapping;
-        groundTexture.repeat.set(10, 10);
-        const groundMaterial = new THREE.MeshPhongMaterial({ map: groundTexture });
-        const groundGeometry = new THREE.PlaneGeometry(200, 200);
-        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-        ground.rotation.x = -Math.PI / 2;
-        scene.add(ground);
+            // Ground
+            const groundGeometry = new THREE.PlaneGeometry(200, 200);
+            const groundMaterial = new THREE.MeshPhongMaterial({ color: 0x3a9efd, shininess: 10 });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            cityGroup.add(ground);
 
-        // Building texture
-        const buildingTexture = textureLoader.load('images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png');
-        const buildingMaterial = new THREE.MeshPhongMaterial({ map: buildingTexture });
+            // Futuristic buildings
+            for (let i = 0; i < 50; i++) {
+                const height = Math.random() * 30 + 10;
+                const geometry = new THREE.CylinderGeometry(2 + Math.random() * 3, 2 + Math.random() * 3, height, 6);
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: Math.random() * 0xffffff,
+                    emissive: 0x111111,
+                    shininess: 30
+                });
+                const building = new THREE.Mesh(geometry, material);
+                building.position.set(
+                    Math.random() * 180 - 90,
+                    height / 2,
+                    Math.random() * 180 - 90
+                );
+                cityGroup.add(building);
+            }
 
-        function createBuilding(x, z) {
-            const height = Math.random() * 20 + 10;
-            const geometry = new THREE.BoxGeometry(5, height, 5);
-            const building = new THREE.Mesh(geometry, buildingMaterial);
-            building.position.set(x, height/2, z);
-            scene.add(building);
+            return cityGroup;
         }
 
-        for (let i = 0; i < 50; i++) {
-            createBuilding(Math.random() * 180 - 90, Math.random() * 180 - 90);
-        }
+        const city = createCity();
+        scene.add(city);
 
-        // Billboard
-        const billboardTexture = textureLoader.load('images for new web/background-image-of-a-natural-landscape-in-the-center-the-word-l (2).png');
-        const billboardMaterial = new THREE.SpriteMaterial({ map: billboardTexture });
-        const billboard = new THREE.Sprite(billboardMaterial);
-        billboard.scale.set(20, 10, 1);
-        billboard.position.set(0, 15, -30);
-        scene.add(billboard);
+        // Central screen for chatbot
+        const screenGeometry = new THREE.PlaneGeometry(40, 30);
+        const screenMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+        screen.position.set(0, 15, -30);
+        scene.add(screen);
 
         // Lighting
         const ambientLight = new THREE.AmbientLight(0x404040);
@@ -75,6 +85,18 @@
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
         directionalLight.position.set(1, 1, 1);
         scene.add(directionalLight);
+
+        // Add some floating particles for atmosphere
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCnt = 5000;
+        const posArray = new Float32Array(particlesCnt * 3);
+        for(let i = 0; i < particlesCnt * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 200;
+        }
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({size: 0.005, color: 0x7fbfff});
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
 
         camera.position.set(0, 5, 30);
 
@@ -94,6 +116,7 @@
                 case 'KeyA': moveLeft = true; break;
                 case 'KeyS': moveBackward = true; break;
                 case 'KeyD': moveRight = true; break;
+                case 'KeyE': toggleChatbot(); break;
             }
         }
 
@@ -125,9 +148,18 @@
             }
         }
 
+        function toggleChatbot() {
+            const distance = camera.position.distanceTo(screen.position);
+            if (distance < 20) {
+                const chatbotContainer = document.getElementById('chatbotContainer');
+                chatbotContainer.style.display = chatbotContainer.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+
         function animate() {
             requestAnimationFrame(animate);
             updateControls();
+            particlesMesh.rotation.y += 0.0005;
             renderer.render(scene, camera);
         }
 
