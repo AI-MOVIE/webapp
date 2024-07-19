@@ -47,6 +47,17 @@ function init() {
     screen.position.set(0, 5, -20);
     scene.add(screen);
     
+    // Add video texture to the screen
+    const video = document.createElement('video');
+    video.src = 'https://www.w3schools.com/html/mov_bbb.mp4'; // Replace with your video URL
+    video.crossOrigin = 'anonymous';
+    video.load();
+    video.play();
+
+    const videoTexture = new THREE.VideoTexture(video);
+    screen.material.map = videoTexture;
+    screen.material.needsUpdate = true;
+    
     // Render loop
     function animate() {
         requestAnimationFrame(animate);
@@ -64,4 +75,3 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
-
