@@ -35,7 +35,7 @@ function init() {
     
     // Ground
     const groundGeometry = new THREE.PlaneGeometry(100, 100);
-    const groundMaterial = new THREE.MeshStandardMaterial({ color: 0xB6D7A8 });
+    const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.rotation.x = -Math.PI / 2;
     scene.add(ground);
